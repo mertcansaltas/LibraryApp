@@ -1,0 +1,56 @@
+﻿@model Kiralama
+
+<form method="post" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-10">
+            <div class="border p-3 mt-5">
+                <div class="row pb-3">
+                    <h2 class="text-primary">@(Model == null ? "Yeni Kiralama" : "Kiralama Güncelle")</h2> <!--Modelid 0'a eşit ise Ekleme işlemi yapacak-->
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="OgrenciID" class="control-label"></label>
+                <input asp-for="OgrenciID" class="form-control" />
+                <span asp-validation-for="OgrenciID" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="KitapID" class="p-0"></label>
+                    <select asp-for="KitapID" asp-items="ViewBag.KitapList" class="form-select"></select>
+                    <span asp-validation-for="KitapID" class="text-danger"></span>
+                </div>
+              
+
+                @if (Model != null)
+                {
+                    <input type="submit" class="btn btn-lg btn-primary" style="width:250px" value="Kiralama Güncelle" />
+                }
+                else
+                {
+                    <input type="submit" class="btn btn-lg btn-primary" style="width:250px" value="Yeni Kiralama" />
+                }
+
+                <a asp-controller="Kiralama" asp-action="Index" class="btn btn-lg btn-primary" style="width=250px">
+                    Kiralama Sayfasına Geri Dön
+                </a>
+            </div>
+
+        </div>
+        <div class="col-2" >
+            @if (Model != null)
+            {
+                <br /> <br />
+                <img src="@Model.Kitap.ResimUrl" width="100%" style="border-radius:7px; border:1px solid #bbb9b9 " />
+            }
+        </div>
+    </div>
+
+
+
+</form>
+
+<!--Eğer controller kısmında Model.Isvalid yapmazsak ValidationScriptsPartial'ı bu sayfaya gömerek JavaScript, Required Error Message'ımızı alıyor ve bu sayfaya getiriyor-->
+@* @section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+}
+} *@

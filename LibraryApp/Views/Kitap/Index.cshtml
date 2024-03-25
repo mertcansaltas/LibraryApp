@@ -1,0 +1,68 @@
+﻿@model List<Kitap>
+
+<div class="bg-success">
+    @if (TempData["bilgi"] != null)
+    {
+        <h2>@TempData["bilgi"]</h2>
+    }
+</div>
+
+<div class="container">
+    <div class="row pt-3 pb-4">
+        <div class="col-12 text-center">
+            <h1>Kitaplar</h1>
+        </div>
+    </div>
+
+    <table class="table table-bordered text-center">
+        <thead>
+            <tr>
+                <th class="align-middle">Resim</th>
+                <th class="align-middle">ID</th>
+                <th class="align-middle">Kitap Adı</th>
+                <th class="align-middle">Tanım</th>
+                <th class="align-middle">Yazar</th>
+                <th class="align-middle">Fiyat</th>
+                <th class="align-middle">Kitap Türü</th>
+                @if (User.IsInRole(UserRoles.Role_Admin))
+                {
+                    <th></th>
+                    <th></th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="align-middle">
+                        <img src="@item.ResimUrl" style="border-radius:7px; border: 1px solid #bbb9b9; max-width:145px; max:275px;" />
+                    </td>
+                    <td class="align-middle">@item.ID</td>
+                    <td class="align-middle">@item.KitapAdi</td>
+                    <td class="align-middle">@item.Tanim</td>
+                    <td class="align-middle">@item.Yazar</td>
+                    <td class="align-middle">@item.Fiyat</td>
+                    <td class="align-middle">@item.KitapTuru.Ad</td>
+                    @if (User.IsInRole(UserRoles.Role_Admin))
+                    {
+                        <td class="align-middle">
+                            <a asp-controller="Kitap" asp-action="EkleGuncelle" asp-route-id="@item.ID" type="button" class="btn btn-success" style="width:250px">Güncelle</a>
+                        </td>
+                        <td class="align-middle">
+                            <a asp-controller="Kitap" asp-action="Sil" asp-route-id="@item.ID" type="button" class="btn btn-danger" style="width:250px">Sil</a>
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+    @if (User.IsInRole(UserRoles.Role_Admin))
+    {
+        <div class="row pt-3 pb-2 justify-content-center">
+            <div class="col-6 text-center">
+                <a asp-action="EkleGuncelle" asp-controller="Kitap" class="btn btn-lg btn-primary" type="button">Yeni Kitap Oluştur</a>
+            </div>
+        </div>
+    }
+</div>
